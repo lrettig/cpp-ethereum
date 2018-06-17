@@ -82,7 +82,7 @@ void LegacyVM::throwBadStack(unsigned _removed, unsigned _added)
 
 void LegacyVM::throwRevertInstruction(owning_bytes_ref&& _output)
 {
-	// We can't use BOOST_THROW_EXCEPTION here because it makes a copy of exception inside and RevertInstruction has no copy constructor 
+	// We can't use BOOST_THROW_EXCEPTION here because it makes a copy of exception inside and RevertInstruction has no copy constructor
 	throw RevertInstruction(move(_output));
 }
 
@@ -269,6 +269,8 @@ bool LegacyVM::caseCallSetup(CallParameters *callParams, bytesRef& o_output)
 	uint64_t inSize = (uint64_t)inputSize;
 	uint64_t outOff = (uint64_t)outputOffset;
 	uint64_t outSize = (uint64_t)outputSize;
+	std::cout << "Balance is: " << m_ext->balance(m_ext->myAddress) << std::endl;
+	std::cout << "Value is: " << callParams->valueTransfer << std::endl;
 
 	if (m_ext->balance(m_ext->myAddress) >= callParams->valueTransfer && m_ext->depth < 1024)
 	{
